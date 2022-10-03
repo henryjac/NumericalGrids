@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}ifndef CURVEBASE}
+\PYG{c+cp}{\PYGZsh{}define CURVEBASE}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZdq{}point.h\PYGZdq{}}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}functional\PYGZgt{}}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{CurveBase}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{protected}\PYG{+w}{ }\PYG{o}{:}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{pmin}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{pmax}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{rev}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{k}{virtual}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{xp}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{virtual}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{yp}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{virtual}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{dxp}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{virtual}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{dyp}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{integrand}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{q}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{integrate}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{find\PYGZus{}p}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{public}\PYG{+w}{ }\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{CurveBase}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p\PYGZus{}min}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p\PYGZus{}max}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{rev}\PYG{o}{=}\PYG{n+nb}{false}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{virtual}\PYG{+w}{ }\PYG{o}{\PYGZti{}}\PYG{n}{CurveBase}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{+w}{ }\PYG{n+nf}{xy}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// To get x/y do .first/.second}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}corner}\PYG{p}{(}\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{is\PYGZus{}reversed}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{print\PYGZus{}corners}\PYG{p}{();}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k}{typedef}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{Fnc1D}\PYG{p}{;}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{newton}\PYG{p}{(}\PYG{n}{Fnc1D}\PYG{+w}{ }\PYG{n}{f}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Fnc1D}\PYG{+w}{ }\PYG{n}{df}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x0}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}12}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{maxit}\PYG{o}{=}\PYG{l+m+mi}{1000}\PYG{p}{);}
+\PYG{c+cp}{\PYGZsh{}endif}
+\end{Verbatim}

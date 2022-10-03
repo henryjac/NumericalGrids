@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZdq{}curvebase.h\PYGZdq{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZdq{}../../project1/src/adaptive\PYGZus{}integration.h\PYGZdq{}}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}cmath\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}iostream\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}functional\PYGZgt{}}
+
+\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{CurveBase}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p\PYGZus{}min}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p\PYGZus{}max}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{\PYGZus{}rev}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{pmin}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p\PYGZus{}min}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{pmax}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p\PYGZus{}max}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{rev}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{\PYGZus{}rev}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Integrand function for use in Newtons algorithm as}
+\PYG{c+c1}{// we need the derivative of the integral.}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{integrand}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{q}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dxp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dxp}\PYG{p}{(}\PYG{n}{q}\PYG{p}{);}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dyp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dyp}\PYG{p}{(}\PYG{n}{q}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{dxp\PYGZus{}q}\PYG{o}{*}\PYG{n}{dxp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dyp\PYGZus{}q}\PYG{o}{*}\PYG{n}{dyp\PYGZus{}q}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{integrate}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Same as the member functions as I couldnt pass the }
+\PYG{+w}{    }\PYG{c+c1}{// member functions to the ASI function}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{integrand}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{q}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dxp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dxp}\PYG{p}{(}\PYG{n}{q}\PYG{p}{);}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dyp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dyp}\PYG{p}{(}\PYG{n}{q}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{dxp\PYGZus{}q}\PYG{o}{*}\PYG{n}{dxp\PYGZus{}q}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dyp\PYGZus{}q}\PYG{o}{*}\PYG{n}{dyp\PYGZus{}q}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{ASI}\PYG{p}{(}\PYG{n}{integrand}\PYG{p}{,}\PYG{n}{pmin}\PYG{p}{,}\PYG{n}{p}\PYG{p}{);}\PYG{+w}{ }
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{find\PYGZus{}p}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{f}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{integrate}\PYG{p}{(}\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{o}{*}\PYG{n}{integrate}\PYG{p}{(}\PYG{n}{pmax}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{df}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{integrand}\PYG{p}{(}\PYG{n}{p}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{newton}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{df}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{xy}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{find\PYGZus{}p}\PYG{p}{(}\PYG{n}{s}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Point}\PYG{p}{(}\PYG{n}{xp}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),}\PYG{n}{yp}\PYG{p}{(}\PYG{n}{p}\PYG{p}{));}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Returns the value of the specific corner, start of the curve if}
+\PYG{c+c1}{// true, otherwise the end.}
+\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{get\PYGZus{}corner}\PYG{p}{(}\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{rev}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{xy}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{xy}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{is\PYGZus{}reversed}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{rev}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{CurveBase}\PYG{o}{::}\PYG{n}{print\PYGZus{}corners}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{xy0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{xy}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{xy1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{xy}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{xy0}\PYG{p}{.}\PYG{n}{print}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{std}\PYG{o}{::}\PYG{n}{cout}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZlt{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} \PYGZhy{}\PYGZgt{} \PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{xy1}\PYG{p}{.}\PYG{n}{print}\PYG{p}{(}\PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{typedef}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{Fnc1D}\PYG{p}{;}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{newton}\PYG{p}{(}\PYG{n}{Fnc1D}\PYG{+w}{ }\PYG{n}{f}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Fnc1D}\PYG{+w}{ }\PYG{n}{df}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x0}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{tol}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{maxit}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{err}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{err}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{tol}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{maxit}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{x1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{x0}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{f}\PYG{p}{(}\PYG{n}{x0}\PYG{p}{)}\PYG{o}{/}\PYG{n}{df}\PYG{p}{(}\PYG{n}{x0}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{err}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fabs}\PYG{p}{(}\PYG{n}{x1}\PYG{o}{\PYGZhy{}}\PYG{n}{x0}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{x0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{x1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{i}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{err}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{tol}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{x0}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{std}\PYG{o}{::}\PYG{n}{cerr}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZlt{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}No convergence\PYGZdq{}}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZlt{}}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{endl}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

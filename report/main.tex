@@ -1,0 +1,170 @@
+\documentclass{setup}
+
+\title{Project 4\\Program construction in \\C++ for Scientific Computing\\HT22}
+\author{Henry Jacobson}
+
+\begin{document}
+\maketitle
+\section{Task 1}
+I've now used smart pointers, specifically \texttt{std::shared\_ptr} in the domain class for the curves.
+\section{Task 2}
+The declaration of the \texttt{GFkt} class can be found in \texttt{grid\_functions.h} and the definitions in the files
+\texttt{grid\_functions.cpp}, and \texttt{differentiation.cpp}.
+
+To implement the laplacian we need to take the second derivative. We can either do the first derivative twice or derive the specific solution to the second derivative, I did both to compare, so here is the chain rule written out for the second derivatives.
+\begin{align}
+    \pdv[2]{u}{\xi} &= \pdv[2]{u}{x}\pth{\pdv{x}{\xi}}^2 + \pdv[2]{u}{y}\pth{\pdv{y}{\xi}}^2 + \pdv[2]{x}{\xi}\pdv{u}{x} + \pdv[2]{y}{\xi}\pdv{u}{y} + 2\pddv{u}{x}{y}\pdv{x}{\xi}\pdv{y}{\xi}
+    \\
+    \pddv{u}{\xi}{\eta} &= \pdv[2]{u}{x}\pdv{x}{\xi}\pdv{x}{\eta} + \pdv[2]{u}{y}\pdv{y}{\xi}\pdv{y}{\eta} + \pddv{x}{\xi}{\eta}\pdv{u}{x} + \pddv{y}{\xi}{\eta}\pdv{u}{y} + \pddv{u}{x}{y}\pth{\pdv{x}{\xi}\pdv{y}{\eta} + \pdv{x}{\eta}\pdv{y}{\xi}}
+    \\
+    \pdv[2]{u}{\eta} &= \pdv[2]{u}{x}\pth{\pdv{x}{\eta}}^2 + \pdv[2]{u}{y}\pth{\pdv{y}{\eta}}^2 + \pdv[2]{x}{\eta}\pdv{u}{x} + \pdv[2]{y}{\eta}\pdv{u}{y} + 2\pddv{u}{x}{y}\pdv{x}{\eta}\pdv{y}{\eta}
+\end{align}
+Since we have the solution of the first derivatives from earlier we can write this as a linear system too, using a more short-hand notation for the derivatives,
+\begin{align}
+    \mtr{
+        x_\xi^2 & 2x_\xi y_\xi & y_\xi^2
+        \\
+        x_\xi x_\eta & x_\xi y_\eta + x_\eta y_\xi & y_\xi y_\eta
+        \\
+        x_\eta^2 & 2x_\eta y_\eta & y_\eta^2
+    }
+    \mtr{
+        u_{xx}
+        \\
+        u_{xy}
+        \\
+        u_{yy}
+    }
+    = 
+    \mtr{
+        u_{\xi\xi} - u_xx_{\xi\xi}- u_yy_{\xi\xi} 
+        \\
+        u_{\xi\eta} - u_xx_{\xi\eta}- u_yy_{\xi\eta} 
+        \\
+        u_{\eta\eta}  - u_xx_{\eta\eta}- u_yy_{\eta\eta}
+    }
+\end{align}
+Where of course $u_{xx}$, $u_{yy}$ and $u_{xy}$ are the unknown.
+
+When calculating the cross derivative we need to take care of the corners and edges specially. For the edges in y-direction we have
+\begin{align}
+    u_{xy} = \pm\frac{3u_y[i,j] - 4u_y[i\pm1,j] + u_y[i\pm2,j]}{2h_\xi}
+\end{align}
+where then we can use central difference for $u_y$, except for the corners where we need to use one sided difference there as well. For the edges in x-direction
+we then have
+\begin{align}
+    u_{xy} = u_{yx} = \pm\frac{3u_x[i,j] - 4u_x[i,j\pm1] + u_x[i,j\pm2] }{2h_\eta}
+\end{align}
+where we again can use central difference on the edges and one sided difference needs to be used in the corners.
+
+It turned out when calculating the second derivatives in one direction that the central difference at the second index coincided with the one sided difference (or order 2) 
+at the first index, so I decided to use a higher order scheme:
+\begin{align}
+    u_{xx} = \frac{u[i,j] - 5u[i\pm 1,j] + 4u[i\pm 2, j] - u[i\pm 3,j]}{h_\xi^2} 
+\end{align}
+\section{Task 3}
+The partial derivatives of the specified function are, where $t=x/10$,
+\begin{align}
+    \frac{\partial f}{\partial x} &= \cos\pth{t^2}\frac{t}{5} \cos\pth{t} - \frac{1}{10}\sin\pth{t^2}\sin\pth{t}
+    \\
+    \frac{\partial f}{\partial y} &= 1
+    \\
+    \nabla^2 f &= \frac{-100t\sin\pth{t}\cos\pth{t^2} - \pth{\cos\pth{t}\pth{\pth{100t^2+25}\sin\pth{t^2}-50\cos\pth{t^2} }}} {2500}
+\end{align}
+For an initial error estimate I used the norm functions defined in the matrix class for the total error of the derivatives. I have also plotted the solutions using the two grids
+defined in project 3, using 35 gridpoints in x-direction and 30 in y-driection, see figures below. I used Julia for the plotting.
+\begin{figure}[H]
+    \centering
+    \subfigure[Uniform grid] {
+        \centering
+        \includesvg[width=0.45\textwidth]{../img/function.svg}
+    }
+    \subfigure[Stretched grid] {
+        \centering
+        \includesvg[width=0.45\textwidth]{../img/function_stretch.svg}
+    }
+    \caption{The function defined on the domain}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \subfigure[Exact $u_x$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticpdx.svg}
+    }
+    \subfigure[Approximated $u_x$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/pdx.svg}
+    }
+    \subfigure[Exact $u_y$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticpdy.svg}
+    }
+    \subfigure[Approximated $u_y$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/pdy.svg}
+    }
+    \subfigure[Exact $\nabla^2u$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticlaplace.svg}
+    }
+    \subfigure[Approximated $\nabla^2u$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/laplace.svg}
+    }
+    \caption{Analytic vs. Approximate solutions}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \subfigure[Exact $u_x$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticpdx_stretch.svg}
+    }
+    \subfigure[Approximated $u_x$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/pdx_stretch.svg}
+    }
+    \subfigure[Exact $u_y$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticpdy_stretch.svg}
+    }
+    \subfigure[Approximated $u_y$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/pdy_stretch.svg}
+    }
+    \subfigure[Exact $\nabla^2u$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/analyticlaplace_stretch.svg}
+    }
+    \subfigure[Approximated $\nabla^2u$]{
+        \centering
+        \includesvg[width=0.4\textwidth]{../img/laplace_stretch.svg}
+    }
+    \caption{Analytic vs. Approximate solutions on the stretched grid}
+\end{figure}
+\newpage
+\section{Appendix}
+\subsection{curvebase.h}
+\inputminted{c++}{../src/curvebase.h}
+\subsection{curvebase.cpp}
+\inputminted{c++}{../src/curvebase.cpp}
+\subsection{domain.h}
+\inputminted{c++}{../src/domain.h}
+\subsection{domain.cpp}
+\inputminted{c++}{../src/domain.cpp}
+\subsection{grid\_functions.h}
+\inputminted{c++}{../src/grid_functions.h}
+\subsection{grid\_functions.cpp}
+\inputminted{c++}{../src/grid_functions.cpp}
+\subsection{differentiation.cpp}
+\inputminted{c++}{../src/differentiation.cpp}
+\subsection{ludecomp.cpp}
+\inputminted{c++}{../src/ludecomp.cpp}
+\subsection{point.h}
+\inputminted{c++}{../src/point.h}
+\subsection{point.cpp}
+\inputminted{c++}{../src/point.cpp}
+\subsection{funcs.cpp}
+\inputminted{c++}{../test/funcs.cpp}
+\subsection{plot\_function.jl}
+\inputminted{julia}{../src/plot_function.jl}
+\end{document}

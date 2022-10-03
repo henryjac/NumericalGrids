@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}ifndef POINT }
+\PYG{c+cp}{\PYGZsh{}define POINT }
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}iostream\PYGZgt{}}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}cmath\PYGZgt{}}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Point}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{private}\PYG{o}{:}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x\PYGZus{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{public}\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{x\PYGZus{}}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{x\PYGZus{}}\PYG{p}{(}\PYG{n}{x}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{friend}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{\PYGZlt{}\PYGZlt{}}\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{ostream}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{os}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{P}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{+}\PYG{p}{(}\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Point}\PYG{p}{(}\PYG{n}{x\PYGZus{}}\PYG{o}{+}\PYG{n}{p}\PYG{p}{.}\PYG{n}{x\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{o}{+}\PYG{n}{p}\PYG{p}{.}\PYG{n}{y\PYGZus{}}\PYG{p}{);\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Point}\PYG{p}{(}\PYG{n}{x\PYGZus{}}\PYG{o}{\PYGZhy{}}\PYG{n}{p}\PYG{p}{.}\PYG{n}{x\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{o}{\PYGZhy{}}\PYG{n}{p}\PYG{p}{.}\PYG{n}{y\PYGZus{}}\PYG{p}{);\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{()}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{x\PYGZus{}}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{()}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{y\PYGZus{}}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{print}\PYG{p}{(}\PYG{k+kt}{char}\PYG{+w}{ }\PYG{n}{end}\PYG{o}{=}\PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}0\PYGZsq{}}\PYG{p}{);}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{n}{Point}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{*}\PYG{p}{(}\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{n}{Point}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{*}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Point}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{eps\PYGZus{}equal}\PYG{p}{(}\PYG{n}{Point}\PYG{p}{,}\PYG{n}{Point}\PYG{p}{,}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{eps}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}10}\PYG{p}{);}
+\PYG{c+cp}{\PYGZsh{}endif}
+\end{Verbatim}

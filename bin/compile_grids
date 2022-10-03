@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ -o bin/grids test/grids.cpp src/curvebase.cpp src/special_curve.cpp src/domain.cpp src/straight_line.cpp src/point.cpp $1

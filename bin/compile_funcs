@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ $1 == "all" ]]; then
+    g++ -Wall -o obj/curvebase.obj -c src/curvebase.cpp
+    g++ -Wall -o obj/special_curve.obj -c src/special_curve.cpp
+    g++ -Wall -o obj/domain.obj -c src/domain.cpp
+    g++ -Wall -o obj/straight_line.obj -c src/straight_line.cpp
+    g++ -Wall -o obj/matrix.obj -c ../project2/src/matrix.cpp
+    g++ -Wall -o obj/point.obj -c src/point.cpp
+    g++ -Wall -o obj/grid_functions.obj -c src/grid_functions.cpp 
+    g++ -Wall -o obj/differentiation.obj -c src/differentiation.cpp
+    g++ -Wall -o obj/ludecomp.obj -c src/ludecomp.cpp
+    g++ -Wall -o obj/funcs.obj -c test/funcs.cpp
+elif true; then
+    g++ -Wall -o obj/differentiation.obj -c src/differentiation.cpp
+    g++ -Wall -o obj/grid_functions.obj -c src/grid_functions.cpp
+    g++ -Wall -o obj/funcs.obj -c test/funcs.cpp
+fi
+if [[ $1 == "-g" ]]; then
+    g++ src/differentiation.cpp src/curvebase.cpp src/special_curve.cpp src/domain.cpp src/ludecomp.cpp src/straight_line.cpp ../project2/src/matrix.cpp src/point.cpp src/grid_functions.cpp test/funcs.cpp -o bin/funcs $1
+elif [[ $1 == "new" ]]; then
+    g++ obj/differentiation.obj obj/curvebase.obj obj/special_curve.obj obj/domain.obj obj/straight_line.obj obj/matrix.obj obj/point.obj obj/grid_functions.obj obj/funcs.obj obj/ludecomp.obj -o bin/new_funcs
+elif true; then
+    g++ obj/differentiation.obj obj/curvebase.obj obj/special_curve.obj obj/domain.obj obj/straight_line.obj obj/matrix.obj obj/point.obj obj/grid_functions.obj obj/funcs.obj obj/ludecomp.obj -o bin/funcs
+fi

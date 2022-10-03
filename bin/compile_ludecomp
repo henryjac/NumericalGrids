@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ -o bin/ludecomp test/ludecomp.cpp src/ludecomp.cpp ../project2/src/matrix.cpp $1

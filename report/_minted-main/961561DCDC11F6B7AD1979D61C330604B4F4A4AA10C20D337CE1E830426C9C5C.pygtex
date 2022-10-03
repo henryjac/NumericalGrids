@@ -1,0 +1,50 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{import} \PYG{n}{Plots}
+\PYG{k}{import} \PYG{n}{LinearAlgebra}
+
+\PYG{k}{function} \PYG{n}{func\PYGZus{}plot}\PYG{p}{(}\PYG{n}{gridfile}\PYG{p}{,} \PYG{n}{valfile}\PYG{p}{)} 
+    \PYG{n}{Z} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} 
+    \PYG{n}{X} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{Y} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{n}{open}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}bin/data/\PYGZdq{}}\PYG{o}{*}\PYG{n}{valfile}\PYG{o}{*}\PYG{l+s}{\PYGZdq{}.bin\PYGZdq{}}\PYG{p}{)} \PYG{k}{do} \PYG{n}{io}
+        \PYG{n}{n} \PYG{o}{=} \PYG{n}{read}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{k+kt}{UInt8}\PYG{p}{)}
+        \PYG{n}{seek}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{)}
+        \PYG{n}{m} \PYG{o}{=} \PYG{n}{read}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{k+kt}{UInt8}\PYG{p}{)}
+        \PYG{n}{seek}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{)}
+
+        \PYG{n}{n} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(}\PYG{k+kt}{Int64}\PYG{p}{,} \PYG{n}{n}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]);} \PYG{n}{m} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(}\PYG{k+kt}{Int64}\PYG{p}{,} \PYG{n}{m}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+        \PYG{n}{Z} \PYG{o}{=} \PYG{k+kt}{Array}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n+nb}{undef}\PYG{p}{,} \PYG{n}{m}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)}
+        \PYG{n}{read!}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{n}{Z}\PYG{p}{)}
+    \PYG{k}{end}
+    \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{m} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{n}{open}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}bin/data/\PYGZdq{}}\PYG{o}{*}\PYG{n}{gridfile}\PYG{o}{*}\PYG{l+s}{\PYGZdq{}.bin\PYGZdq{}}\PYG{p}{)} \PYG{k}{do} \PYG{n}{io}
+        \PYG{n}{n} \PYG{o}{=} \PYG{n}{read}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{k+kt}{UInt8}\PYG{p}{)}
+        \PYG{n}{seek}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{)}
+        \PYG{n}{m} \PYG{o}{=} \PYG{n}{read}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{k+kt}{UInt8}\PYG{p}{)}
+        \PYG{n}{seek}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{)}
+
+        \PYG{n}{n} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(}\PYG{k+kt}{Int64}\PYG{p}{,} \PYG{n}{n}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]);} \PYG{n}{m} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(}\PYG{k+kt}{Int64}\PYG{p}{,} \PYG{n}{m}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+        \PYG{n}{XY} \PYG{o}{=} \PYG{k+kt}{Array}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n+nb}{undef}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{n}\PYG{o}{*}\PYG{n}{m}\PYG{p}{)}
+        \PYG{n}{read!}\PYG{p}{(}\PYG{n}{io}\PYG{p}{,} \PYG{n}{XY}\PYG{p}{)}
+        \PYG{n}{X} \PYG{o}{=} \PYG{n}{reshape}\PYG{p}{(}\PYG{n}{XY}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],}\PYG{n}{m}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)}
+        \PYG{n}{Y} \PYG{o}{=} \PYG{n}{reshape}\PYG{p}{(}\PYG{n}{XY}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],}\PYG{n}{m}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)}
+    \PYG{k}{end}
+    \PYG{c}{\PYGZsh{} 3D style}
+    \PYG{n}{p} \PYG{o}{=} \PYG{n}{Plots}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{();}
+    \PYG{n}{Plots}\PYG{o}{.}\PYG{n}{plot!}\PYG{p}{(}\PYG{n}{X}\PYG{o}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{Y}\PYG{o}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{Z}\PYG{o}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{color}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}blue\PYGZdq{}}\PYG{p}{,}\PYG{n}{label}\PYG{o}{=}\PYG{n+nb}{false}\PYG{p}{,} \PYG{n}{camera}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{30}\PYG{p}{))} 
+    \PYG{c}{\PYGZsh{} Plot in both directions for grid: uncomment next line}
+    \PYG{c}{\PYGZsh{} Plots.plot!(X,Y,Z,color=\PYGZdq{}blue\PYGZdq{},label=false, camera=(10,30))}
+    \PYG{n}{p}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{save\PYGZus{}plots}\PYG{p}{()}
+    \PYG{n}{bins} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZdq{}function\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}pdx\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}pdy\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}laplace\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}analyticpdx\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}analyticpdy\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}analyticlaplace\PYGZdq{}}\PYG{p}{]}
+    \PYG{n}{extras} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZus{}stretch\PYGZdq{}}\PYG{p}{]}
+    \PYG{k}{for} \PYG{n}{extra} \PYG{k}{in} \PYG{n}{extras}
+        \PYG{k}{for} \PYG{n}{bin} \PYG{k}{in} \PYG{n}{bins}
+            \PYG{n}{bin} \PYG{o}{*=} \PYG{n}{extra}
+            \PYG{n}{p} \PYG{o}{=} \PYG{n}{func\PYGZus{}plot}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}grid\PYGZdq{}}\PYG{o}{*}\PYG{n}{extra}\PYG{p}{,} \PYG{n}{bin}\PYG{p}{)}
+            \PYG{n}{Plots}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{n}{p}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}img/\PYGZdq{}}\PYG{o}{*}\PYG{n}{bin}\PYG{o}{*}\PYG{l+s}{\PYGZdq{}.svg\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{end}
+    \PYG{k}{end}
+\PYG{k}{end}
+\end{Verbatim}

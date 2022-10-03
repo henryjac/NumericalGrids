@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZdq{}curvebase.h\PYGZdq{}}
+
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}cmath\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include}\PYG{+w}{ }\PYG{c+cpf}{\PYGZlt{}memory\PYGZgt{}}
+
+\PYG{k}{enum}\PYG{+w}{ }\PYG{n+nc}{StretchDir}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{STRETCH\PYGZus{}X}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{STRETCH\PYGZus{}Y}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Domain}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{static}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{phi0}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{o}{\PYGZhy{}}\PYG{n}{s}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{static}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{phi1}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{k}{return}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{private}\PYG{o}{:}\PYG{+w}{ }
+\PYG{+w}{        }\PYG{n}{std}\PYG{o}{::}\PYG{n}{shared\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{CurveBase}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{borders}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{];}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{std}\PYG{o}{::}\PYG{n}{unique\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{[]}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{stretch\PYGZus{}x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{stretch\PYGZus{}y}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{check\PYGZus{}consistency}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Checks that all the curves end where the next starts.}
+\PYG{+w}{    }\PYG{k}{public}\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{Domain}\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{shared\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{CurveBase}\PYG{o}{\PYGZgt{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{shared\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{CurveBase}\PYG{o}{\PYGZgt{}}\PYG{p}{,}\PYG{+w}{ }
+\PYG{+w}{                }\PYG{n}{std}\PYG{o}{::}\PYG{n}{shared\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{CurveBase}\PYG{o}{\PYGZgt{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{shared\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{CurveBase}\PYG{o}{\PYGZgt{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Domain}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Domain}\PYG{o}{\PYGZam{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Domain}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{k}{operator}\PYG{o}{=}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{Domain}\PYG{o}{\PYGZam{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{o}{\PYGZti{}}\PYG{n}{Domain}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{Point}\PYG{+w}{ }\PYG{n+nf}{operator}\PYG{p}{()(}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{p}{);}
+\PYG{+w}{        }
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{set\PYGZus{}stretching}\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{function}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{(}\PYG{k+kt}{double}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{StretchDir}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}grid}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{m\PYGZus{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{print\PYGZus{}corners}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{xsize}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{ysize}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{getx}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{gety}\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{save\PYGZus{}boundary}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{precision}\PYG{o}{=}\PYG{l+m+mi}{50}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{save\PYGZus{}grid}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{);}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}
