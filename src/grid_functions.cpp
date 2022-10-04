@@ -13,11 +13,6 @@ GFkt::GFkt(std::shared_ptr<Domain> grid_) : u(grid_->xsize(),grid_->ysize()), gr
     h_eta = (double)1/(grid->ysize()-1);
 }
 
-GFkt::GFkt(GFkt&& U) : u(U.u), grid(U.grid), h_eta(U.h_eta), h_xi(U.h_xi) {
-    U.u = Matrix();
-    U.grid = nullptr;
-}
-
 GFkt& GFkt::operator=(const GFkt& U) {
     if (this != &U) {
         u = U.u;

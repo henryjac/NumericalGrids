@@ -1,4 +1,4 @@
-#include "../../project2/src/matrix.h"
+#include "../src/matrix.h"
 
 #include <array>
 #include <memory>

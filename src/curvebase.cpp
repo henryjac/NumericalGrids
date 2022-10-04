@@ -1,5 +1,5 @@
 #include "curvebase.h"
-#include "../../project1/src/adaptive_integration.h"
+#include "adaptive_integration.h"
 
 #include <cmath>
 #include <iostream>

@@ -22,4 +22,5 @@ class Point {
 Point operator*(Point a, double b);
 Point operator*(double a, Point b);
 bool eps_equal(Point,Point,double eps=1e-10);
+
 #endif

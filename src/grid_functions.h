@@ -1,5 +1,5 @@
 #include "domain.h"
-#include "../../project2/src/matrix.h"
+#include "matrix.h"
 
 #include <memory>
 
@@ -25,7 +25,6 @@ class GFkt : std::enable_shared_from_this<GFkt> {
         GFkt(std::shared_ptr<Domain>);
         GFkt(std::shared_ptr<Domain>, Matrix);
         GFkt(const GFkt& U) : u(U.u), grid(U.grid), h_eta(U.h_eta), h_xi(U.h_xi) {}
-        GFkt(GFkt&&);
         GFkt& operator=(const GFkt&);
         GFkt operator+(const GFkt&) const;
         GFkt operator-(const GFkt&) const;
